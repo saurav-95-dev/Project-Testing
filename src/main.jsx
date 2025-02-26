@@ -7,5 +7,5 @@ import './fanta.css' //For the styling of our app
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )

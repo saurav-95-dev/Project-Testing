@@ -37,7 +37,7 @@ export default function App() {
     <>
       <Header todos={ todos} />
       <Tabs todos={ todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-      <TodoList todos={ todos}/> 
+      <TodoList todos={ todos} selectedTab={selectedTab}/> 
       <TodoInput handleAddTodo = {handleAddTodo} />
     </>
   )

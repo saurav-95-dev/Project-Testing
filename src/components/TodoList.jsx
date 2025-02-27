@@ -3,22 +3,18 @@ import TodoCard from "./TodoCard";
 
  
 export default function TodoList(props) {
-    const { todos } = props;
-    const tab = "All";
-    let filterTodoList = ""
-    if (tab == "All") {
-        filterTodoList = todos;
-    }
-    else if (tab == "Open") {
-        filterTodoList = todos.filter(val => !val.complete);
-    }
-    else {
-        filterTodoList = todos.filter(val => val.complete);
-    }
+    const { todos , selectedTab} = props;
+    const filterTodosList = selectedTab == "All" ? 
+    todos :
+    selectedTab == "Completed" ? 
+    todos.filter(val=>val.complete) : 
+    todos.filter(val=>!val.complete);
+
+    
     return (
         <>
             {
-                filterTodoList.map((todo , todoIndex) => {
+                filterTodosList.map((todo , todoIndex) => {
                     return (
                         <TodoCard key={ todoIndex} todo={todo} />
                     )

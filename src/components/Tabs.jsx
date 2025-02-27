@@ -16,15 +16,15 @@ export default function Tabs(props) {
                 if(tab == "All"){
                     numOfTask = todos.length;
                 }
-                else if(tab == "Open"){
-                    numOfTask = todos.filter(val => !val.complete).length;
+                else if(tab == "Completed"){
+                    numOfTask = todos.filter(val => val.complete).length;
                 }
                 else{
-                   numOfTask = todos.filter(val => val.complete).length;
+                   numOfTask = todos.filter(val => !val.complete).length;
                 
                 }
                     return (
-                        <button key={tabIndex} className={"tab-button " + (tab==selectedTab ? " tab-selected" : "")}>
+                        <button onClick={()=>{setSelectedTab(tab)}} key={tabIndex} className={"tab-button " + (tab==selectedTab ? " tab-selected" : "")}>
                             <h4>{ tab } <span>({numOfTask})</span></h4>
                         </button>
                     )

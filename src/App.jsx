@@ -16,6 +16,7 @@ export default function App() {
   
   //Defining a stateful variable:
   const [todos , setTodos] = useState([ { input: 'Hello! Add your first todo!', complete: true }]);
+  const [selectedTab , setSelectedTab] = useState("Open"); //Send these stateful variables to the Tabs component as props.
 
   //Handler functions :
   function handleAddTodo(newTodo){
@@ -35,8 +36,8 @@ export default function App() {
   return (
     <>
       <Header todos={ todos} />
-      <Tabs todos={ todos}/>
-      <TodoList todos={ todos}/>
+      <Tabs todos={ todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
+      <TodoList todos={ todos}/> 
       <TodoInput handleAddTodo = {handleAddTodo} />
     </>
   )

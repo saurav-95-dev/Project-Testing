@@ -51,6 +51,7 @@ h1 {
   background: var(--color-link);
   border-radius: 0.5px;
   animation: widen 250ms ease-in-out forwards;
+  background-color: pink;
 }
 
 hr {

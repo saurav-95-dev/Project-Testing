@@ -3,12 +3,12 @@ export default function Header(props) {
 
     const { todos } = props;
     const todosLength = todos.length;
-    let isTaskPlural = "";
+    let isTaskPlural = ""
     if (todosLength == 1) {
-        isTaskPlural = "task"
+        isTaskPlural = "ticket"
     }
     else {
-        isTaskPlural = "tasks"
+        isTaskPlural = "tickets"
     }
 
     return (

@@ -26,6 +26,17 @@ export default function App() {
   }
 
   function handleCompleteTodo(index){
+          //Create a duplicate of the original todos array : 
+          const newTodoList = [...todos];
+          //Extract the particular todo which has to be updated:
+          const completedTodo  = todos[index];
+          //Now modify the status of that particular eextracted todo:
+          completedTodo['complete'] = true;
+          //Appending the completedTodo in the newTodoList index array:
+          newTodoList[index] = completedTodo;
+          //Now overwriting the values via setTodo:
+          setTodos(newTodoList);
+
 
 
   }
@@ -40,11 +51,12 @@ export default function App() {
 
   }
 
+
   return (
     <>
       <Header todos={ todos} />
       <Tabs todos={ todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-      <TodoList handleDeleteTodo={handleDeleteTodo} todos={ todos} selectedTab={selectedTab}/> 
+      <TodoList handleCompleteTodo={handleCompleteTodo}  handleDeleteTodo={handleDeleteTodo} todos={ todos} selectedTab={selectedTab}/> 
       <TodoInput handleAddTodo = {handleAddTodo} />
     </>
   )

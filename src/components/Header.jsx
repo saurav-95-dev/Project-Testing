@@ -1,19 +1,12 @@
-
-export default function Header(props) {
-
-    const { todos } = props;
+export default function Header({ todos }) {
     const todosLength = todos.length;
-    let isTaskPlural = ""
-    if (todosLength == 1) {
-        isTaskPlural = "ticket"
-    }
-    else {
-        isTaskPlural = "tickets"
-    }
+    const openTasksCount = todos.filter(todo => !todo.complete).length; // ✅ Calculate it here
 
     return (
         <header>
-            <h1 className="text-gradient">You have {todosLength} open {isTaskPlural}.</h1>
-       </header>
-    )
+            <h1 className="text-gradient">
+                You have {openTasksCount} open {todosLength === 1 ? "ticket" : "tickets"}.
+            </h1>
+        </header>
+    );
 }

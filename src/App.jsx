@@ -55,6 +55,14 @@ export default function App() {
     handleSaveData(newTodoList);
   }
   
+
+  function handleEditTodo(index, newInput) {
+    const newTodoList = [...todos];
+    newTodoList[index].input = newInput;
+    setTodos(newTodoList);
+    handleSaveData(newTodoList);
+  }
+
   function handleSaveData(currTodos){
     localStorage.setItem("todo-app" , JSON.stringify({todos : currTodos}))
 
@@ -64,6 +72,7 @@ export default function App() {
     if(!localStorage || !localStorage.getItem("todo-app"))
       return;
     console.log("Use Effect is running");
+    //This will get the persisted data last updated when the page will render(open the app!)
     let db = JSON.parse(localStorage.getItem("todo-app"));
     setTodos(db.todos);
 
@@ -74,7 +83,7 @@ export default function App() {
     <>
       <Header todos={ todos} />
       <Tabs todos={ todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-      <TodoList handleCompleteTodo={handleCompleteTodo}  handleDeleteTodo={handleDeleteTodo} todos={ todos} selectedTab={selectedTab}/> 
+      <TodoList  handleEditTodo={handleEditTodo} handleCompleteTodo={handleCompleteTodo}  handleDeleteTodo={handleDeleteTodo} todos={ todos} selectedTab={selectedTab}/> 
       <TodoInput handleAddTodo = {handleAddTodo} />
     </>
   )

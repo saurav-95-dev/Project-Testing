@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import Header from "./components/Header";
 import Tabs from "./components/Tabs";
 import TodoInput from "./components/TodoInput";
@@ -6,6 +6,9 @@ import TodoList from "./components/TodoList";
 
 
 export default function App() {
+
+  //useState and useEffect hook : 
+
   //Array of objects will be passed as a props:s
   // const todos = [
   //   { input: 'Hello! Add your first todo!', complete: true },
@@ -23,6 +26,7 @@ export default function App() {
    
     const newTodoList = [...todos , { input: newTodo , complete: false }];
     setTodos(newTodoList);
+    handleSaveData(newTodoList);
   }
 
   function handleCompleteTodo(index){
@@ -36,7 +40,7 @@ export default function App() {
           newTodoList[index] = completedTodo;
           //Now overwriting the values via setTodo:
           setTodos(newTodoList);
-
+          handleSaveData(newTodoList);
 
 
   }
@@ -48,9 +52,23 @@ export default function App() {
 
     })
     setTodos(newTodoList);
+    handleSaveData(newTodoList);
+  }
+  
+  function handleSaveData(currTodos){
+    localStorage.setItem("todo-app" , JSON.stringify({todos : currTodos}))
 
   }
 
+  useEffect(()=>{
+    if(!localStorage || !localStorage.getItem("todo-app"))
+      return;
+    console.log("Use Effect is running");
+    let db = JSON.parse(localStorage.getItem("todo-app"));
+    setTodos(db.todos);
+
+      
+  } , [])
 
   return (
     <>

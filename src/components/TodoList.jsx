@@ -1,7 +1,6 @@
 //The TodoList is going to be dependent on the tab that's currently opened :
 import TodoCard from "./TodoCard";
 
- 
 export default function TodoList(props) {
 
     const { todos , selectedTab} = props;
@@ -24,3 +23,4 @@ export default function TodoList(props) {
         </>
      )
  }
+

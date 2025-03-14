@@ -1,6 +1,6 @@
 ### PROJECT TESTING FRONTEND : 
 
-### Technologies :  React , Material-UI , BackendAsService
+### Technologies :  React , Chakra UI , BackendAsService
 
 ## Indexed as Feb 24 , 2025
 

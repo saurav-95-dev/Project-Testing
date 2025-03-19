@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import Header from "./Header";
-import Tabs from "./Tabs";
-import TodoInput from "./TodoInput";
-import TodoList from "./TodoList";
-import Auth from "./Auth";
+import Header from "./components/Header";
+import Tabs from "./components/Tabs";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
+import Auth from "./components/Auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 
 export default function App() {
   const [user, setUser] = useState(null);

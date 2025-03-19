@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import Header from "./components/Header";
-import Tabs from "./components/Tabs";
-import TodoInput from "./components/TodoInput";
-import TodoList from "./components/TodoList";
-import Auth from "./components/Auth";
-import { onAuthStateChanged, signOut, deleteUser } from "firebase/auth";
+import Header from "./Header";
+import Tabs from "./Tabs";
+import TodoInput from "./TodoInput";
+import TodoList from "./TodoList";
+import Auth from "./Auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 
 export default function App() {
@@ -13,13 +13,9 @@ export default function App() {
   const [selectedTab, setSelectedTab] = useState("Open");
 
   useEffect(() => {
-    // Always force the user to sign up again after logout
-    localStorage.removeItem("user");
-    
+    // Check if the user is already logged in when the app loads
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(null); // Prevent auto-login on revisiting
-      }
+      setUser(currentUser);
     });
     return () => unsubscribe();
   }, []);
@@ -63,7 +59,6 @@ export default function App() {
   async function handleLogout() {
     try {
       await signOut(auth);
-      localStorage.removeItem("user");
       setUser(null);
     } catch (error) {
       console.error("Sign-out error:", error);

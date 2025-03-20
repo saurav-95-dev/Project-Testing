@@ -6,34 +6,31 @@ import "./Auth.css";
 export default function Auth({ setUser }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isSignUp, setIsSignUp] = useState(true);
-  const [error, setError] = useState(null);
+
   const provider = new GoogleAuthProvider();
 
-  const handleAuthWithGoogle = async () => {
+  const handleSignInWithGoogle = async () => {
     try {
       provider.setCustomParameters({ prompt: "select_account" });
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
-      localStorage.setItem("user", JSON.stringify(result.user));
     } catch (error) {
-      setError(error.message);
+      alert("Google Sign-in error: " + error.message);
     }
   };
 
-  const handleAuthWithEmail = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
     try {
+      let userCredential;
       if (isSignUp) {
-        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-        setUser(userCredential.user);
+        userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       } else {
-        const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-        setUser(userCredential.user);
+        userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       }
-      localStorage.setItem("user", JSON.stringify(auth.currentUser));
+      setUser(userCredential.user);
     } catch (error) {
-      setError(error.message);
+      alert("Authentication error: " + error.message);
     }
   };
 
@@ -44,32 +41,21 @@ export default function Auth({ setUser }) {
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h2>{isSignUp ? "Sign Up" : "Login"}</h2>
-        
-        {error && <p className="error-message">{error}</p>}
-
-        <button className="google-btn" onClick={handleAuthWithGoogle}>
+        <h2>{isSignUp ? "Sign Up" : "Log In"}</h2>
+        <button className="google-btn" onClick={handleSignInWithGoogle}>
           <img src="/assets/google-icon.png" alt="Google Logo" className="google-logo" />
-          {isSignUp ? "Sign up with Google" : "Login with Google"}
+          {isSignUp ? "Sign up" : "Log in"} with Google
         </button>
-
         <div className="separator"><span>OR</span></div>
-
-        <form onSubmit={handleAuthWithEmail}>
+        <form onSubmit={handleFormSubmit}>
           <label>Email</label>
           <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-
           <label>Password</label>
           <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-
-          <button type="submit" className="login-btn">{isSignUp ? "Sign Up" : "Login"}</button>
+          <button type="submit" className="login-btn">{isSignUp ? "Sign Up" : "Log In"}</button>
         </form>
-
-        <p className="toggle-text">
-          {isSignUp ? "Already have an account? " : "Don't have an account? "}
-          <span className="toggle-link" onClick={() => setIsSignUp(!isSignUp)}>
-            {isSignUp ? "Login here" : "Sign up here"}
-          </span>
+        <p onClick={() => setIsSignUp(!isSignUp)} className="toggle-link">
+          {isSignUp ? "Already have an account? Log in" : "Don't have an account? Sign up"}
         </p>
       </div>
     </div>

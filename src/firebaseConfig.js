@@ -1,8 +1,8 @@
-//...........
-// src/firebase.js
+// Import Firebase SDK
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
 
+// Your Firebase project configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCpCcCa54MDfyVFXApWEkc_Er7GKxUYeRA",
     authDomain: "oncall-bugtracer-dev-support.firebaseapp.com",
@@ -13,8 +13,9 @@ const firebaseConfig = {
     measurementId: "G-VQJTNDYP3F"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
 
-export { auth, provider }; // ✅ Ensure 'provider' is exported
+// Export Firestore functions
+export { db, collection, addDoc, getDocs, updateDoc, deleteDoc, doc };

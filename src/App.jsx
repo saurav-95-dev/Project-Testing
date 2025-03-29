@@ -5,7 +5,11 @@ import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import Auth from "./components/Auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+<<<<<<< HEAD
 import { auth } from "./firebase";
+=======
+import { auth } from "../firebase";
+>>>>>>> 1e12322ee38d30d8b81617b8d4b18d8aacbd8450
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -19,6 +23,10 @@ export default function App() {
   const [selectedPriority, setSelectedPriority] = useState("All");
 
   useEffect(() => {
+<<<<<<< HEAD
+=======
+    // Check if the user is already logged in when the app loads
+>>>>>>> 1e12322ee38d30d8b81617b8d4b18d8aacbd8450
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });

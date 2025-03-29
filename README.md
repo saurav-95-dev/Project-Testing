@@ -1,7 +1,7 @@
 ### PROJECT TESTING FRONTEND : 
 
-### Technologies :  React , Chakra UI , Firebase 
+### Technologies :  React , Chakra UI , Firebase , Auth 0 
 
-## Indexed as Feb 24 , 2025
+
 
 

@@ -4,28 +4,42 @@ import Tabs from "./components/Tabs";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import Auth from "./components/Auth";
-import { onAuthStateChanged, signOut, deleteUser } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [todos, setTodos] = useState([{ input: "Hello! Add your first todo!", complete: true }]);
+  const [todos, setTodos] = useState([{ 
+    input: "Hello! Add your first todo!", 
+    complete: true, 
+    file: null, 
+    priority: "Medium" 
+  }]);
   const [selectedTab, setSelectedTab] = useState("Open");
+  const [selectedPriority, setSelectedPriority] = useState("All");
 
   useEffect(() => {
-    // Always force the user to sign up again after logout
-    localStorage.removeItem("user");
-    
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(null); // Prevent auto-login on revisiting
-      }
+      setUser(currentUser);
     });
     return () => unsubscribe();
   }, []);
 
-  function handleAddTodo(newTodo) {
-    const newTodoList = [...todos, { input: newTodo, complete: false }];
+  function handleAddTodo(newTodo, file, priority) {
+    const newTodoItem = {
+      input: newTodo,
+      complete: false,
+      file: file
+        ? {
+            name: file.name,
+            type: file.type,
+            url: URL.createObjectURL(file),
+          }
+        : null,
+      priority: priority || "Medium",
+    };
+
+    const newTodoList = [...todos, newTodoItem];
     setTodos(newTodoList);
     handleSaveData(newTodoList);
   }
@@ -43,9 +57,12 @@ export default function App() {
     handleSaveData(newTodoList);
   }
 
-  function handleEditTodo(index, newInput) {
+  function handleEditTodo(index, newInput, newPriority) {
     const newTodoList = [...todos];
     newTodoList[index].input = newInput;
+    if (newPriority) {
+      newTodoList[index].priority = newPriority;
+    }
     setTodos(newTodoList);
     handleSaveData(newTodoList);
   }
@@ -63,7 +80,6 @@ export default function App() {
   async function handleLogout() {
     try {
       await signOut(auth);
-      localStorage.removeItem("user");
       setUser(null);
     } catch (error) {
       console.error("Sign-out error:", error);
@@ -75,13 +91,33 @@ export default function App() {
       {!user ? (
         <Auth setUser={setUser} />
       ) : (
-        <>
+        <div className="app-container">
           <Header todos={todos} />
-          <Tabs todos={todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-          <TodoList handleEditTodo={handleEditTodo} handleCompleteTodo={handleCompleteTodo} handleDeleteTodo={handleDeleteTodo} todos={todos} selectedTab={selectedTab} />
+          <Tabs
+            todos={todos}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            selectedPriority={selectedPriority}
+            setSelectedPriority={setSelectedPriority}
+          />
+          <div className="todo-list-container">
+            <TodoList
+              handleEditTodo={handleEditTodo}
+              handleCompleteTodo={handleCompleteTodo}
+              handleDeleteTodo={handleDeleteTodo}
+              todos={todos}
+              selectedTab={selectedTab}
+              selectedPriority={selectedPriority}
+            />
+          </div>
           <TodoInput handleAddTodo={handleAddTodo} />
-          <button onClick={handleLogout}>Logout</button>
-        </>
+          <button
+            className="logout-button"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
       )}
     </>
   );
